@@ -257,7 +257,3 @@ Validation errors are raised **before** any API call is made.
 - [ ] Configuration file support (YAML/TOML) alongside `.env`
 
 ---
-
-## License
-
-This project is provided for educational and interview demonstration purposes.
