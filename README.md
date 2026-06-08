@@ -1,259 +1,293 @@
 # Trading Bot — Binance Futures Testnet (USDT-M)
 
-A production-quality, CLI-based Python trading bot for placing orders on the **Binance Futures Testnet**. Built for clarity, modularity, and interview review — with full input validation, structured logging, and robust error handling.
-
-**Testnet URL:** [https://testnet.binancefuture.com](https://testnet.binancefuture.com)
-
----
+A production-quality CLI-based Python trading bot for placing orders on the Binance Futures Testnet. The project demonstrates clean architecture, robust validation, structured logging, and proper exception handling.
 
 ## Project Overview
 
-This project demonstrates a clean layered architecture for interacting with the Binance Futures API:
+This application interacts with the Binance Futures Testnet API and supports placing multiple order types through a command-line interface.
 
-- **CLI layer** — parses arguments and prints user-friendly output
-- **Validation layer** — enforces business rules before any API call
-- **Client layer** — manages authenticated connection to the testnet
-- **Order layer** — places MARKET, LIMIT, and STOP_LIMIT orders
+Architecture:
 
-The bot is designed to run safely on testnet only. No real funds are at risk when using testnet API key.
+- CLI Layer – Parses command-line arguments and displays results.
+- Validation Layer – Validates user input before API requests.
+- Client Layer – Manages authenticated Binance Testnet connection.
+- Order Layer – Handles order placement logic.
+
+The project operates exclusively on Binance Futures Testnet, ensuring no real funds are used.
 
 ---
 
 ## Features
 
-- Place **MARKET** orders (BUY / SELL)
-- Place **LIMIT** orders (BUY / SELL)
-- Place **STOP_LIMIT** orders (BUY / SELL)
-- Input validation with custom `ValidationError`
-- Rotating file logging (`REQUEST`, `RESPONSE`, `ERROR`)
-- Graceful handling of API, network, and unexpected errors
-- Type hints and docstrings throughout
-- PEP 8 compliant, modular package structure
+- Place MARKET orders (BUY / SELL)
+- Place LIMIT orders (BUY / SELL)
+- Place STOP_LIMIT orders (BUY / SELL)
+- Input validation using custom exceptions
+- Structured logging with rotating log files
+- Robust error handling for API and network failures
+- Modular and maintainable code structure
+- Type hints and documentation throughout the codebase
+- PEP 8 compliant implementation
 
 ---
 
 ## Folder Structure
 
-```
-trading_bot/
+```text
+binance-futures-trading-bot/
 │
 ├── bot/
-│   ├── __init__.py          # Package metadata
-│   ├── config.py            # Environment configuration
-│   ├── client.py            # Binance client wrapper
-│   ├── orders.py            # Order placement logic
-│   ├── validators.py        # Input validation
-│   ├── logging_config.py    # Rotating file logger setup
-│   └── exceptions.py        # Custom exceptions
+│   ├── __init__.py
+│   ├── client.py
+│   ├── config.py
+│   ├── exceptions.py
+│   ├── logging_config.py
+│   ├── orders.py
+│   └── validators.py
 │
 ├── logs/
-│   └── trading_bot.log      # Application log file
 │
-├── .env.example             # Environment variable template
+├── .env.example
 ├── .gitignore
-├── cli.py                   # CLI entry point
+├── cli.py
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
+## Tech Stack
+
+- Python 3
+- Binance Futures Testnet API
+- python-binance
+- python-dotenv
+- argparse
+- logging
+
+---
+
 ## Installation
 
-### Prerequisites
-
-- Python **3.11+**
-- pip
-- Binance Futures **Testnet** API key and secret
-
-### Steps
+### Clone Repository
 
 ```bash
-# Clone or navigate to the project
-cd trading_bot
+git clone https://github.com/YOUR_USERNAME/binance-futures-trading-bot.git
 
-# Create a virtual environment (recommended)
+cd binance-futures-trading-bot
+```
+
+### Create Virtual Environment
+
+```bash
 python3 -m venv .venv
-source .venv/bin/activate   # macOS / Linux
-# .venv\Scripts\activate    # Windows
 
-# Install dependencies
-pip install -r requirements.txt
+source .venv/bin/activate
+```
+
+Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+### Install Dependencies
+
+```bash
+python3 -m pip install -r requirements.txt
 ```
 
 ---
 
-## Setup
+## Binance Testnet Setup
 
-### 1. Create a Testnet Account
+### Create Testnet Account
 
-1. Visit [https://testnet.binancefuture.com](https://testnet.binancefuture.com)
-2. Log in with your GitHub account
-3. Generate API Key and Secret from the testnet dashboard
+1. Visit:
 
-### 2. Configure Environment Variables
+https://testnet.binancefuture.com
+
+2. Login using GitHub.
+
+3. Generate a Testnet API Key and Secret.
+
+### Configure Environment Variables
+
+Create a `.env` file:
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and add your credentials:
+Update `.env`:
 
 ```env
 BINANCE_API_KEY=your_api_key
 BINANCE_API_SECRET=your_api_secret
 ```
 
-> **Never commit `.env` to version control.** It is listed in `.gitignore`.
-
 ---
 
-## Environment Variables
+## Usage
 
-| Variable             | Required | Description                          |
-|----------------------|----------|--------------------------------------|
-| `BINANCE_API_KEY`    | Yes      | Binance Futures Testnet API key      |
-| `BINANCE_API_SECRET` | Yes      | Binance Futures Testnet API secret   |
-
----
-
-## Usage Examples
-
-All commands are run from the `trading_bot/` directory.
-
-### Market Buy
+### MARKET BUY
 
 ```bash
-python cli.py \
+python3 cli.py \
   --symbol BTCUSDT \
   --side BUY \
   --type MARKET \
   --quantity 0.001
 ```
 
-### Market Sell
+### MARKET SELL
 
 ```bash
-python cli.py \
+python3 cli.py \
   --symbol BTCUSDT \
   --side SELL \
   --type MARKET \
   --quantity 0.001
 ```
 
-### Limit Buy
+### LIMIT BUY
 
 ```bash
-python cli.py \
+python3 cli.py \
   --symbol BTCUSDT \
   --side BUY \
   --type LIMIT \
   --quantity 0.001 \
-  --price 100000
+  --price 50000
 ```
 
-### Limit Sell
+### LIMIT SELL
 
 ```bash
-python cli.py \
+python3 cli.py \
   --symbol BTCUSDT \
   --side SELL \
   --type LIMIT \
   --quantity 0.001 \
-  --price 120000
+  --price 70000
 ```
 
-### Stop Limit Buy
+### STOP_LIMIT BUY
 
 ```bash
-python cli.py \
+python3 cli.py \
   --symbol BTCUSDT \
   --side BUY \
   --type STOP_LIMIT \
   --quantity 0.001 \
-  --price 100000 \
-  --stop-price 99000
+  --price 66000 \
+  --stop-price 65000
 ```
 
-### CLI Arguments
+---
 
-| Argument       | Required | Description                                      |
-|----------------|----------|--------------------------------------------------|
-| `--symbol`     | Yes      | Trading pair (e.g. `BTCUSDT`)                    |
-| `--side`       | Yes      | `BUY` or `SELL`                                  |
-| `--type`       | Yes      | `MARKET`, `LIMIT`, or `STOP_LIMIT`               |
-| `--quantity`   | Yes      | Order quantity (must be > 0)                     |
-| `--price`      | LIMIT / STOP_LIMIT | Limit price (must be > 0)              |
-| `--stop-price` | STOP_LIMIT only    | Stop trigger price (must be > 0)       |
+## Sample Output
+
+```text
+====================================
+ORDER REQUEST SUMMARY
+====================================
+
+Symbol: BTCUSDT
+Side: BUY
+Type: MARKET
+Quantity: 0.001
+
+====================================
+ORDER RESPONSE
+====================================
+
+Order ID: 14506055477
+Status: NEW
+
+SUCCESS:
+Order placed successfully.
+```
 
 ---
 
 ## Logging
 
-Logs are written to `logs/trading_bot.log` using a `RotatingFileHandler`:
+Application logs are stored in:
 
-- **Max file size:** 5 MB
-- **Backup count:** 3 rotated files
-
-The `logs/` directory is created automatically on first run.
-
-### Log Format
-
+```text
+logs/trading_bot.log
 ```
+
+Logged events include:
+
+- API requests
+- API responses
+- Validation failures
+- Runtime errors
+- Unexpected exceptions
+
+Example:
+
+```text
 REQUEST:
 symbol=BTCUSDT
 side=BUY
 type=MARKET
-quantity=0.001
 
 RESPONSE:
-orderId=12345
-status=FILLED
-
-ERROR:
-Invalid quantity
+orderId=14506055477
+status=NEW
 ```
 
 ---
 
 ## Error Handling
 
-The CLI catches and displays friendly messages for:
+The application gracefully handles:
 
-| Exception            | User Message                                      |
-|----------------------|---------------------------------------------------|
-| `ValidationError`    | Specific validation failure (e.g. invalid side)   |
-| `BinanceAPIException`| Binance API error code and message                |
-| `OrderExecutionError`| Client initialization or order execution failure|
-| `ConnectionError`    | Network connection failure                        |
-| `TimeoutError`       | Request timeout                                   |
-| `RequestException`   | General HTTP request failure                      |
-| `Exception`          | Unexpected errors (full details logged to file) |
-
-Validation errors are raised **before** any API call is made.
+| Exception | Description |
+|------------|-------------|
+| ValidationError | Invalid user input |
+| BinanceAPIException | Binance API errors |
+| OrderExecutionError | Order placement failures |
+| ConnectionError | Network connectivity issues |
+| TimeoutError | Request timeout |
+| RequestException | HTTP request failures |
+| Exception | Unexpected runtime errors |
 
 ---
 
 ## Assumptions
 
-1. **Testnet only** — The client is hardcoded to `https://testnet.binancefuture.com/fapi`.
-2. **USDT-M Futures** — Orders use the USDT-margined futures endpoint.
-3. **One-way position mode** — Default Binance futures position mode is assumed.
-4. **GTC time in force** — LIMIT and STOP_LIMIT orders use Good-Til-Cancelled.
-5. **Credentials via `.env`** — API keys are loaded with `python-dotenv` at startup.
-6. **Quantity precision** — The user is responsible for providing quantities that meet exchange filter rules (step size, min notional, etc.).
+1. Binance Futures Testnet is used exclusively.
+2. Orders are placed on USDT-M Futures.
+3. API credentials are loaded through `.env`.
+4. LIMIT and STOP_LIMIT orders use GTC (Good Till Cancelled).
+5. User is responsible for valid quantity precision and exchange filters.
 
 ---
 
 ## Future Improvements
 
-- [ ] Add `--dry-run` mode to validate without placing orders
-- [ ] Support `STOP_MARKET` and `TAKE_PROFIT` order types
-- [ ] Fetch and cache exchange info (symbol filters, precision)
-- [ ] Add order cancellation and status query commands
-- [ ] WebSocket integration for real-time fill notifications
-- [ ] Unit tests with mocked Binance API responses
-- [ ] Docker support for containerized deployment
-- [ ] Configuration file support (YAML/TOML) alongside `.env`
+- Add STOP_MARKET orders
+- Add TAKE_PROFIT orders
+- Implement order cancellation
+- Fetch exchange filters dynamically
+- Add WebSocket support
+- Add unit and integration tests
+- Add Docker support
+- Add dry-run mode
 
 ---
+
+## Security
+
+- API keys are stored in `.env`
+- `.env` is excluded using `.gitignore`
+- No secrets are committed to source control
+
+---
+
+## Author
+Anurag Kumar
