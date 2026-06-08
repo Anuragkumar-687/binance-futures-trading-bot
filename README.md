@@ -15,7 +15,7 @@ This project demonstrates a clean layered architecture for interacting with the 
 - **Client layer** — manages authenticated connection to the testnet
 - **Order layer** — places MARKET, LIMIT, and STOP_LIMIT orders
 
-The bot is designed to run safely on testnet only. No real funds are at risk when using testnet API keys.
+The bot is designed to run safely on testnet only. No real funds are at risk when using testnet API key.
 
 ---
 
